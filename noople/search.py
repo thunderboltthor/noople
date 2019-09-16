@@ -25,6 +25,7 @@ def insert_query(q=None):
     # We can also close the connection if we are done with it.
     conn.close()
 
+
 def select_recent_queries(max_rows=5):
     """Select recent searches from the query table
 
@@ -35,7 +36,10 @@ def select_recent_queries(max_rows=5):
     cursor = conn.cursor()
 
     # Insert a row of data
-    cursor.execute("SELECT search FROM query ORDER BY id DESC LIMIT " + max_rows +";")
+    cursor.execute("""SELECT search
+                      FROM query
+                      ORDER BY id DESC
+                      LIMIT """ + max_rows + ";")
 
     results = cursor.fetchall()
 
@@ -56,14 +60,17 @@ def search():
     recent_searches = ''
     q = request.args.get("q", None)
     if q:
-        search_term = '<p>You searched for: ' + q + '</p><p>No results found.</p>'
+        search_term = '<p>You searched for: ' + q + '</p>'
+        search_term += '<p>No results found.</p>'
         insert_query(q)
 
     recent_queries = select_recent_queries()
     if len(recent_queries) > 1:
         recent_searches = '<p>Recent searches:</p><ul>'
         for query in recent_queries:
-            recent_searches += '<li><a href="/?q=' + query[0] + '">' + query[0] + '</a></li>'
+            recent_searches += '<li><a href="/?q=' + query[0] + '">'
+            recent_searches += query[0]
+            recent_searches += '</a></li>'
         recent_searches += '</ul>'
 
     return '''<h1>noople</h1>
@@ -82,4 +89,3 @@ def init():
     db.init_db()
     db.get_db().execute('SELECT * FROM query')
     return 'Database initialized.'
-

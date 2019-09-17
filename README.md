@@ -2,7 +2,9 @@
 
 (Change `SITE_NAME` to DuckDuckNope for enhanced privacy.)
 
-noople is a search engine that doesn't have any results. It is used for demonstration purposes only:
+noople is a search engine that doesn't have any results. It is based on the [Python Flask framework](https://flask.palletsprojects.com/en/1.1.x/) and [SQLite](https://www.sqlite.org/index.html).
+
+noople is used for education purposes to demonstrate:
 
 * Reading GET requests in Flask
 * Processing SQL requests in Python
@@ -35,12 +37,12 @@ Visit http://localhost:5000 in a web browser.
 
 ### Reflected XSS
 
-To fix this, use `escape`
+To fix this, use `escape`. See [Flask escape](https://flask.palletsprojects.com/en/1.1.x/api/#flask.escape)
 
 ### Stored XSS
 
-To fix this, use `escape`
+To fix this, use `escape`. See [Flask escape](https://flask.palletsprojects.com/en/1.1.x/api/#flask.escape)
 
 ### SQL injection
 
-To fix this, used bind variables
+To fix this, used bind variables. See [sqlite3: execute](https://docs.python.org/3/library/sqlite3.html#sqlite3.Cursor.execute)

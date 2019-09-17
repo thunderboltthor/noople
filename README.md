@@ -45,4 +45,4 @@ To fix this, use `escape`. See [Flask escape](https://flask.palletsprojects.com/
 
 ### SQL injection
 
-To fix this, used bind variables. See [sqlite3: execute](https://docs.python.org/3/library/sqlite3.html#sqlite3.Cursor.execute)
+To fix this, use `execute` (instead of `executescript`) with bind variables. See [sqlite3: execute](https://docs.python.org/3/library/sqlite3.html#sqlite3.Cursor.execute)

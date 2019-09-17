@@ -4,7 +4,7 @@
 
 noople is a search engine that doesn't have any results. It is based on the [Python Flask framework](https://flask.palletsprojects.com/en/1.1.x/) and [SQLite](https://www.sqlite.org/index.html).
 
-noople is used for education purposes to demonstrate:
+noople can be used to demonstrate:
 
 * Reading GET requests in Flask
 * Processing SQL requests in Python

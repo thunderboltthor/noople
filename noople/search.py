@@ -122,7 +122,7 @@ def search():
     # Format recent searches as HTML
     recent_searches = get_recent_searches_html()
 
-    return '''<h1>noople</h1>
+    return '<h1>' + SITE_NAME + '''</h1>
               <form action="/" method="GET">
               <input type="text" name="q">
               <input type="submit" value="search">

@@ -7,7 +7,7 @@ common security vulnerabilities, such as XSS and SQLi.
 """
 
 import sqlite3
-from flask import Flask, current_app, request, escape
+from flask import Flask, current_app, request
 
 app = Flask(__name__)
 
@@ -109,8 +109,19 @@ def get_recent_searches_html():
 
 def html_wrapper(content):
     """Wraps provided string content in an HTML page"""
-    header = '<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><title>' + SITE_NAME + '</title></head><body>'
-    footer = '</body></html>'
+
+    header = '''<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>''' + SITE_NAME + '''</title>
+</head>
+<body>
+'''
+
+    footer = '''
+</body>
+</html>'''
     return header + content + footer
 
 
@@ -130,10 +141,10 @@ def search():
     recent_searches = get_recent_searches_html()
 
     return html_wrapper('<h1>' + SITE_NAME + '''</h1>
-              <form action="/" method="GET">
-              <input type="text" name="q">
-              <input type="submit" value="search">
-              </form>''' + search_results + recent_searches)
+    <form action="/" method="GET">
+        <input type="text" name="q">
+        <input type="submit" value="search">
+    </form>''' + search_results + recent_searches)
 
 
 @app.route('/init/')

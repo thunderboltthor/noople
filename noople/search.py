@@ -7,7 +7,7 @@ common security vulnerabilities, such as XSS and SQLi.
 """
 
 import sqlite3
-from flask import Flask, current_app, request
+from flask import Flask, current_app, request, escape
 
 app = Flask(__name__)
 
@@ -79,7 +79,7 @@ def get_search_results_html(search_query=None):
         insert_query(search_query)
 
         # Format results as HTML
-        search_results = '<p>You searched for: ' + search_query + '</p>'
+        search_results = f'<p>You searched for: {search_query}</p>'
         search_results += '<p>No results found.</p>'
         return search_results
 
@@ -97,14 +97,21 @@ def get_recent_searches_html():
     if recent_queries:
         recent_searches = '<p>Recent searches:</p><ul>'
         for query in recent_queries:
-            recent_searches += '<li><a href="/?q=' + query[0] + '">'
-            recent_searches += query[0]
+            recent_searches += f'<li><a href="/?q={query[0]}">'
+            recent_searches += f'{query[0]}'
             recent_searches += '</a></li>'
         recent_searches += '</ul>'
         return recent_searches
 
     # Otherwise, return a blank string
     return ""
+
+
+def html_wrapper(content):
+    """Wraps provided string content in an HTML page"""
+    header = '<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><title>' + SITE_NAME + '</title></head><body>'
+    footer = '</body></html>'
+    return header + content + footer
 
 
 @app.route('/')
@@ -122,11 +129,11 @@ def search():
     # Format recent searches as HTML
     recent_searches = get_recent_searches_html()
 
-    return '<h1>' + SITE_NAME + '''</h1>
+    return html_wrapper('<h1>' + SITE_NAME + '''</h1>
               <form action="/" method="GET">
               <input type="text" name="q">
               <input type="submit" value="search">
-              </form>''' + search_results + recent_searches
+              </form>''' + search_results + recent_searches)
 
 
 @app.route('/init/')
@@ -138,12 +145,12 @@ def init():
     try:
         init_db()
     except:
-        return '''<h1>An error occurred.</h1>
+        return html_wrapper('''<h1>An error occurred.</h1>
                   <p>An error occurred while initializing
-                  the database. Try again?</p>'''
+                  the database. Try again?</p>''')
 
-    return '''<h1>Database initialized.</h1>
-              <p>Return to the <a href="/">main page</a>.</p>'''
+    return html_wrapper('''<h1>Database initialized.</h1>
+              <p>Return to the <a href="/">main page</a>.</p>''')
 
 
 def init_db():

@@ -39,7 +39,7 @@ def insert_query(search_query=None):
     cursor = conn.cursor()
 
     # Insert a row of data
-    cursor.execute("INSERT INTO query VALUES (NULL, '" + search_query + "');")
+    cursor.execute("INSERT INTO query VALUES (NULL, ?);", (search_query,))
 
     # Save (commit) the changes
     conn.commit()
